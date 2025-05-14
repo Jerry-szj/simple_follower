@@ -1,0 +1,33 @@
+<!-- ROS Launch file -->
+<launch>
+  <!-- 定义一个启动参数 lidar_is_cx，默认值为 false -->
+  <!-- 这个参数用于区分是否使用cx型号的雷达，可能会影响后续laserfollow节点的行为 -->
+  <arg name="lidar_is_cx" default="false"/>
+
+  <!-- 开启激光雷达目标追踪节点 -->
+  <!-- 包含 simple_follower 包中 launch/nodes/laserTracker.launch 文件 -->
+  <!-- laserTracker.launch 文件通常会启动 laserTracker.py 节点，该节点负责处理原始或过滤后的激光雷达数据，并发布检测到的目标位置信息 -->
+  <include file="$(find simple_follower)/launch/nodes/laserTracker.launch" />
+
+  <!-- 开启激光雷达跟随控制节点 -->
+  <!-- 包含 simple_follower 包中 launch/nodes/laserfollow.launch 文件 -->
+  <!-- 将父launch文件中的 lidar_is_cx 参数传递给这个子launch文件 -->
+  <!-- laserfollow.launch 文件通常会启动 laser_follow.py 或 laser_follow_cx.py 节点，该节点根据目标位置信息计算并发布速度指令以实现跟随 -->
+  <include file="$(find simple_follower)/launch/nodes/laserfollow.launch" >
+    	<arg name="lidar_is_cx" value="$(arg lidar_is_cx)"/>
+  </include>
+
+  <!-- 开启机器人底层相关节点 -->
+  <!-- 包含 limo_bringup 包中 launch/limo_start.launch 文件 -->
+  <!-- limo_start.launch 文件通常负责启动LIMO机器人的驱动程序、传感器接口等基础节点 -->
+  <include file="$(find limo_bringup)/launch/limo_start.launch" />
+
+  <!-- 启动激光雷达数据过滤节点 -->
+  <!-- 节点名称为 scan_filter -->
+  <!-- 节点包为 simple_follower -->
+  <!-- 节点类型（可执行文件）为 1.py -->
+  <!-- 这个节点 (1.py) 的功能是订阅原始的 /scan 话题，过滤掉无效数据（如距离为0的点），然后发布到 /filtered_scan 话题 -->
+  <node name="scan_filter" pkg="simple_follower" type="1.py"/>
+      
+</launch>
+

@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<package format="2"> <!-- XML声明和package标签，format="2"是catkin包格式版本 -->
+  <name>simple_follower</name> <!-- 包名，必须唯一 -->
+  <version>0.0.0</version> <!-- 包的版本号，遵循语义化版本规范更佳 (如 MAJOR.MINOR.PATCH) -->
+  <description>Makes a mobile robot follow a target. either using rgb-d or laser range finder</description> <!-- 包的功能描述 -->
+
+  <!-- 维护者信息：至少需要一个maintainer标签 -->
+  <!-- email属性是必需的，标签内是维护者名字 -->
+  <maintainer email="">Anonymous</maintainer> <!-- 维护者邮箱和名称 (原作者信息已移除) -->
+
+  <!-- 许可证信息：至少需要一个license标签 -->
+  <!-- 常用的许可证标识符：BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
+  <license>TODO</license> <!-- 许可证类型，TODO表示待填写，应替换为实际的许可证，如 MIT, BSD, Apache-2.0 等 -->
+
+  <!-- URL标签是可选的，但可以有多个，每个标签一个URL -->
+  <!--可选的type属性可以是：website, bugtracker, or repository -->
+  <!-- <url type="website">http://wiki.ros.org/first_experiments</url> -->
+
+  <!-- 作者标签是可选的，可以有多个，每个标签一个作者 -->
+  <!-- 作者不必是维护者，但也可以是 -->
+  <!-- <author email="jane.doe@example.com">Jane Doe</author> -->
+
+  <!-- _depend 标签用于指定依赖项 -->
+  <!-- 依赖项可以是catkin包或系统依赖项 -->
+
+  <!-- buildtool_depend 用于构建工具包 -->
+  <buildtool_depend>catkin</buildtool_depend> <!-- 依赖catkin作为构建工具 -->
+
+  <!-- build_depend 用于编译时需要的包 -->
+  <build_depend>roscpp</build_depend> <!-- 依赖roscpp (ROS C++客户端库) -->
+  <build_depend>rospy</build_depend> <!-- 依赖rospy (ROS Python客户端库) -->
+  <build_depend>std_msgs</build_depend> <!-- 依赖std_msgs (标准ROS消息) -->
+  <build_depend>sensor_msgs</build_depend> <!-- 依赖sensor_msgs (传感器相关的ROS消息) -->
+  <build_depend>geometry_msgs</build_depend> <!-- 依赖geometry_msgs (几何相关的ROS消息，如Twist, Pose) -->
+  <build_depend>message_generation</build_depend> <!-- 依赖message_generation，用于在编译时从.msg文件生成代码 -->
+  <!-- <build_depend>dynamic_reconfigure</build_depend> 已在CMakeLists.txt中find_package，通常也应在此处声明 -->
+
+  <!-- exec_depend (ROS2) 或 run_depend (ROS1) 用于运行时需要的包 -->
+  <!-- 在ROS1中，run_depend 已被 exec_depend 和 build_export_depend 取代部分功能，但仍广泛使用 -->
+  <!-- message_runtime 是运行自定义消息所必需的 -->
+  <run_depend>message_runtime</run_depend> <!-- 运行时依赖message_runtime，用于执行自定义消息 -->
+  <run_depend>message_generation</run_depend> <!-- 运行时也可能需要message_generation的一些组件，或者更准确地说是build_export_depend -->
+  <run_depend>roscpp</run_depend> <!-- 运行时依赖roscpp -->
+  <run_depend>rospy</run_depend> <!-- 运行时依赖rospy -->
+  <run_depend>std_msgs</run_depend> <!-- 运行时依赖std_msgs -->
+  <run_depend>sensor_msgs</run_depend> <!-- 运行时依赖sensor_msgs -->
+  <run_depend>geometry_msgs</run_depend> <!-- 运行时依赖geometry_msgs -->
+  <!-- <run_depend>dynamic_reconfigure</run_depend> 运行时也需要dynamic_reconfigure -->
+
+  <!-- test_depend 用于仅测试时需要的包 -->
+  <!-- <test_depend>gtest</test_depend> -->
+
+  <!-- export 标签包含其他未指定的标签 -->
+  <export>
+    <!-- 其他工具可能要求在此处放置附加信息 -->
+    <!-- 例如，如果这是一个rqt插件或rviz插件，会有特定的导出标签 -->
+  </export>
+</package>
+

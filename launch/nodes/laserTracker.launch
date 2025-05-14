@@ -1,0 +1,24 @@
+<!-- ROS Launch file -->
+<launch>
+  <!-- 启动 laserTracker.py 节点 -->
+  <!-- 节点名称为 laser_tracker -->
+  <!-- 节点包为 simple_follower -->
+  <!-- 节点类型（可执行文件）为 laserTracker.py -->
+  <!-- output="screen" (可选，用于在控制台显示节点的标准输出和错误) -->
+  <node name="laser_tracker" pkg="simple_follower" type="laserTracker.py" output="screen">
+    <!-- 参数说明: 这些参数用于过滤激光雷达数据中的噪声，避免将噪声误认为目标物体 -->
+    
+    <!-- winSize: 窗口大小 -->
+    <!-- 对于当前检测到的最近距离点，会在其周围一定范围（由winSize定义）内检查上一次扫描的数据 -->
+    <!-- 目的是确认该距离点在连续的扫描中是否稳定存在 -->
+    <!-- value="2" 表示在当前最近点索引的左右各取2个点形成一个窗口 (总窗口大小可能是 2*winSize+1) -->
+    <param name="winSize" value="2" type="int" />
+
+    <!-- deltaDist: 距离变化阈值 -->
+    <!-- 用于比较当前扫描窗口内的点与上一次扫描对应窗口内的点的距离差 -->
+    <!-- 如果距离差小于等于 deltaDist，则认为该点是稳定存在的，而不是噪声 -->
+    <!-- value="0.2" 表示距离差阈值为0.2米 -->
+    <param name="deltaDist" value="0.2" type="double" />
+  </node>
+</launch>
+

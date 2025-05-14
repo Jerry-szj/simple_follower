@@ -1,0 +1,50 @@
+<!-- ROS Launch file -->
+<launch>
+
+  <!-- 定义一个启动参数 lidar_is_cx，默认值为 false -->
+  <!-- 这个参数用于决定启动哪个版本的 laser_follow 节点：laser_follow.py 或 laser_follow_cx.py -->
+  <arg name="lidar_is_cx" default="false"/>
+
+  <!-- 根据 lidar_is_cx 参数的值，条件启动 laser_follow.py 节点 -->
+  <!-- unless="$(arg lidar_is_cx)" 表示当 lidar_is_cx 为 false 时，启动此节点 -->
+  <node unless="$(arg lidar_is_cx)" pkg="simple_follower" type="laser_follow.py" name="follower" output="screen">
+    <!-- 节点参数说明 -->
+    <!-- switchMode: 控制模式切换方式 -->
+    <!-- 如果为 True，按一次按钮会在激活和非激活状态之间切换 -->
+    <!-- 如果为 False，需要一直按住按钮才能保持激活状态 -->
+    <param name="switchMode" value="True" type="bool" />
+
+    <!-- maxSpeed: 最大速度 (线速度和角速度都会受此影响，具体如何影响需看代码实现) -->
+    <param name="maxSpeed" value="0.3" type="double" />
+    <!-- targetDist: 目标距离，机器人会尝试与目标保持这个固定距离 -->
+    <param name="targetDist" value="0.5" type="double" />
+
+    <!-- controllButtonIndex: 控制按钮索引 -->
+    <!-- 用于PS3手柄Joy消息中buttons字段的索引，该按钮用于切换激活/非激活状态 -->
+    <!-- value="-4" 可能是一个特定的映射值或者需要结合手柄驱动的实际输出来理解 -->
+    <param name="controllButtonIndex" value="-4" type="int" />
+
+    <!-- 加载PID控制器参数 -->
+    <!-- ns="PID_controller" 指定参数加载到的命名空间 -->
+    <!-- command="load" 表示加载参数文件 -->
+    <!-- file="..." 指定参数文件的路径 -->
+    <!-- PID_laser_param.yaml 文件中定义了PID控制器的P, I, D增益等 -->
+    <rosparam ns="PID_controller" command="load" file="$(find simple_follower)/parameters/PID_laser_param.yaml" />
+  </node>
+  
+  <!-- 根据 lidar_is_cx 参数的值，条件启动 laser_follow_cx.py 节点 -->
+  <!-- if="$(arg lidar_is_cx)" 表示当 lidar_is_cx 为 true 时，启动此节点 -->
+  <node if="$(arg lidar_is_cx)" pkg="simple_follower" type="laser_follow_cx.py" name="follower_cx" output="screen">
+    <!-- 此处注释掉了一个原有的node标签，可能是开发过程中的残留 -->
+    <!-- <node name="follower" pkg="simple_follower" type="laser_follow.py"> -->
+    
+    <!-- 参数与上面的 laser_follow.py 节点相同 -->
+    <param name="switchMode" value="True" type="bool" />
+    <param name="maxSpeed" value="0.3" type="double" />
+    <param name="targetDist" value="0.5" type="double" />
+    <param name="controllButtonIndex" value="-4" type="int" />
+    <rosparam ns="PID_controller" command="load" file="$(find simple_follower)/parameters/PID_laser_param.yaml" />
+  </node>
+  
+</launch>
+
